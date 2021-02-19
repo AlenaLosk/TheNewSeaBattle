@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Player {
+    String name; //заложена потенциальная возможность играть более, чем одному игроку
+
+    public static void getShoot(char[] cells) {
+        int shoot;
+        Scanner scanner = new Scanner(System.in);
+        do {
+            while (true) {
+                System.out.print("Введите номер поля, в который будет сделан выстрел: ");
+                if (scanner.hasNextInt()) {
+                    shoot = scanner.nextInt();
+                    break;
+                } else {
+                    scanner.nextLine();
+                }
+            }
+            Field.identifyCellInShooting(cells, shoot);
+            System.out.println(cells);
+        } while (Field.hasShip(cells, cells.length));
+
+        System.out.println("Все корабли потоплены!");
+    }
+}
