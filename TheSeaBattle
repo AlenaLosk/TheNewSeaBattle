@@ -1,10 +1,15 @@
 public class TheSeaBattle {
     public static void main(String[] args) {
-        char[] cells = Field.createNewPlayField();
+        Field field = new Field(Player.setSizePlayField());
         for (int i = 1; i <= 4; i++) {
-            Ship.createShips(cells, cells.length, i);
+            Ship.createNewShip(field.cells, field.sizePlayField, i);
         }
-        System.out.println(cells);
-        Player.getShoot(cells);
+        System.out.println(field.cells);
+        do {
+            Field.identifyCellInShooting(field.cells, Player.setShootCell());
+            System.out.println(field.cells);
+        } while (Field.hasShip(field.cells, field.sizePlayField));
+
+        System.out.println("Все корабли потоплены!");
     }
 }
