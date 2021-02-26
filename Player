@@ -1,25 +1,41 @@
 import java.util.Scanner;
 
 public class Player {
-    String name; //заложена потенциальная возможность играть более, чем одному игроку
+    String name;
 
-    public static void getShoot(char[] cells) {
-        int shoot;
+    Player(String name) {
+        this.name = name;
+    }
+
+    public static int setSizePlayField() {
         Scanner scanner = new Scanner(System.in);
-        do {
-            while (true) {
-                System.out.print("Введите номер поля, в который будет сделан выстрел: ");
-                if (scanner.hasNextInt()) {
-                    shoot = scanner.nextInt();
+        int sizePlayField;
+        while (true) {
+            System.out.print("Введите длину игрового поля (от 50 до 100 ячеек): ");
+            if (scanner.hasNextInt()) {
+                sizePlayField = scanner.nextInt();
+                if (sizePlayField >= 50 && sizePlayField <= 100) {
                     break;
-                } else {
-                    scanner.nextLine();
                 }
+            } else {
+                scanner.nextLine();
             }
-            Field.identifyCellInShooting(cells, shoot);
-            System.out.println(cells);
-        } while (Field.hasShip(cells, cells.length));
+        }
+        return sizePlayField;
+    }
 
-        System.out.println("Все корабли потоплены!");
+    public static int setShootCell() {
+        Scanner scanner = new Scanner(System.in);
+        int shootCell;
+        while (true) {
+            System.out.print("Введите номер поля, в который будет сделан выстрел: ");
+            if (scanner.hasNextInt()) {
+                shootCell = scanner.nextInt();
+                break;
+            } else {
+                scanner.nextLine();
+            }
+        }
+        return shootCell;
     }
 }
