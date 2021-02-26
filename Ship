@@ -1,64 +1,52 @@
 public class Ship {
-    public static void createShips(char[] cells, int sizePlayField, int quantityOfDesk) {
-        int shipPosition = 1;
-        switch (quantityOfDesk) {
-            // пусть количество однопалубных кораблей будет 1 к 25 клеткам игрового поля
-            case 1:
-                for (int i = 0; i < (sizePlayField / 25); i++) {
-                    while (shipPosition <= 0 || cells[shipPosition] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 1] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition - 1] == Field.SHIP_SYMBOL) {
-                        shipPosition = (int) (Math.random() * (sizePlayField + 1));
-                    }
-                    cells[shipPosition] = Field.SHIP_SYMBOL;
-                }
-                break;
-            // пусть количество двухпалубных кораблей будет 1 к 33 клеткам игрового поля
-            case 2:
-                for (int i = 0; i < (sizePlayField / 33); i++) {
-                    while (shipPosition <= 0 || cells[shipPosition] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 1] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 2] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition - 1] == Field.SHIP_SYMBOL) {
-                        shipPosition = (int) (Math.random() * (sizePlayField + 1));
-                    }
-                    for (int j = 0; j < 2; j++) {
-                        cells[shipPosition + j] = Field.SHIP_SYMBOL;
-                    }
-                }
-                break;
-            // пусть количество трехпалубных кораблей будет 1 к 50 клеткам игрового поля
-            case 3:
-                for (int i = 0; i < (sizePlayField / 50); i++) {
-                    while (shipPosition <= 0 || cells[shipPosition] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 1] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 2] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 3] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition - 1] == Field.SHIP_SYMBOL) {
-                        shipPosition = (int) (Math.random() * (sizePlayField + 1));
-                    }
-                    for (int j = 0; j < 3; j++) {
-                        cells[shipPosition + j] = Field.SHIP_SYMBOL;
-                    }
-                }
-                break;
-            // пусть количество четырехпалубных кораблей будет 1 к 100 клеткам игрового поля
-            case 4:
-                for (int i = 0; i < (sizePlayField / 100); i++) {
-                    while (shipPosition <= 0 || cells[shipPosition] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 1] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 2] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 3] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition + 4] == Field.SHIP_SYMBOL ||
-                            cells[shipPosition - 1] == Field.SHIP_SYMBOL) {
-                        shipPosition++; //решила пойти простым перебором всех ячеек игрового поля, чтобы не попасть в вечный цикл
-                    }
-                    for (int j = 0; j < 4; j++) {
-                        cells[shipPosition + j] = Field.SHIP_SYMBOL;
-                    }
-                }
-                break;
-        }
+    int shipPosition;
+    int quantityOfDesk;
 
+    Ship(int quantityOfDesk, int shipPosition) {
+        this.quantityOfDesk = quantityOfDesk;
+        this.shipPosition = shipPosition;
+
+    }
+
+    public static void createNewShip(char[] cells, int sizePlayField, int quantityOfDesk) {
+        int shipPosition = 1;
+        for (int i = 0; i < calculateQuantityOfShips(sizePlayField, quantityOfDesk); i++) {
+            while (isaBoolean(cells, shipPosition, quantityOfDesk)) {
+                shipPosition = (int) (Math.random() * (sizePlayField + 1));
+            }
+            for (int j = 0; j < quantityOfDesk; j++) {
+                cells[shipPosition + j] = Field.SHIP_SYMBOL;
+            }
+        }
+    }
+
+    private static int calculateQuantityOfShips(int sizePlayField, int quantityOfDesk) {
+        // пусть количество однопалубных кораблей будет 1 к 25 клеткам игрового поля
+        return switch (quantityOfDesk) {
+// пусть количество однопалубных кораблей будет 1 к 25 клеткам игрового поля
+            case 1 -> sizePlayField / 25;
+// пусть количество двухпалубных кораблей будет 1 к 33 клеткам игрового поля
+            case 2 -> sizePlayField / 33;
+// пусть количество трехпалубных кораблей будет 1 к 50 клеткам игрового поля
+            case 3 -> sizePlayField / 50;
+// пусть количество четырехпалубных кораблей будет 1 к 100 клеткам игрового поля
+            default -> sizePlayField / 100;
+        };
+    }
+
+    private static boolean isaBoolean(char[] cells, int shipPosition, int quantityOfDesk) {
+        boolean b = shipPosition <= 0 || cells[shipPosition] == Field.SHIP_SYMBOL ||
+                cells[shipPosition + 1] == Field.SHIP_SYMBOL ||
+                cells[shipPosition - 1] == Field.SHIP_SYMBOL;
+        if (quantityOfDesk > 1) { // общее условие для всех кораблей от 2 и более палуб
+            b |= cells[shipPosition + 2] == Field.SHIP_SYMBOL;
+        }
+        if (quantityOfDesk > 2) { // общее условие для всех кораблей от 3 и более палуб
+            b |= cells[shipPosition + 3] == Field.SHIP_SYMBOL;
+        }
+        if (quantityOfDesk > 3) { // общее условие для всех кораблей от 4 и более палуб
+            b |= cells[shipPosition + 4] == Field.SHIP_SYMBOL;
+        }
+        return b;
     }
 }
