@@ -4,10 +4,10 @@ public class TheSeaBattle {
         for (int i = 1; i <= 4; i++) {
             Ship.createNewShip(field.cells, field.sizePlayField, i);
         }
-        System.out.println(field.cells);
+        Field.showCells(field);
         do {
             Field.identifyCellInShooting(field.cells, Player.setShootCell());
-            System.out.println(field.cells);
+            Field.showCells(field);
         } while (Field.hasShip(field.cells, field.sizePlayField));
 
         System.out.println("Все корабли потоплены!");
