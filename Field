@@ -13,6 +13,9 @@ public class Field {
         this.cells = new char[this.sizePlayField];
         Arrays.fill(cells, BLANK_SYMBOL);
     }
+    public static void showCells(Field field) {
+        System.out.println(field.cells);
+    }
 
     public static void identifyCellInShooting(char[] cells, int shoot) {
         switch (cells[shoot - 1]) {
